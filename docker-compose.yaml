@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  runner:
+    build:
+      context: ./runner
+    image: bb-runner
+    container_name: bb-runner
+    init: true
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
