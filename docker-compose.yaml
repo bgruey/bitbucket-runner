@@ -3,6 +3,8 @@ services:
   runner:
     build:
       context: ./runner
+      args:
+        - RUNNER_FILE
     image: bb-runner
     container_name: bb-runner
     init: true
