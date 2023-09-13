@@ -16,9 +16,8 @@ ADD parser_lib ./parser_lib
 COPY install-runner.sh .
 COPY run.sh .
 RUN python3 parse-runner-installation.py --infile $RUNNER_FILE
+
 RUN . ./.env \
     && export $(cut -d= -f1 ./.env) \
     && ./install-runner.sh
-RUN ls
-RUN ls atlassian-bitbucket-pipelines-runner/
 CMD . ./.env && export $(cut -d= -f1 ./.env) &&  ./run.sh

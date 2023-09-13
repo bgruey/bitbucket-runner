@@ -7,20 +7,17 @@ then
   cd actions-runner || exit
   # Download the latest runner package
   curl \
-    -o actions-runner-linux-x64-2.308.0.tar.gz \
-    -L https://github.com/actions/runner/releases/download/v2.308.0/actions-runner-linux-x64-2.308.0.tar.gz
+    -o "$DOWNLOAD_OUTPUT" \
+    -L "$DOWNLOAD_URL"
   # Check checksum
-  echo "9f994158d49c5af39f57a65bf1438cbae4968aec1e4fec132dd7992ad57c74fa  actions-runner-linux-x64-2.308.0.tar.gz" \
-    | shasum -a 256 -c
+  echo "$GITHUB_HASH  $DOWNLOAD_OUTPUT" | shasum -a 256 -c
   # Extract
-  tar xzf ./actions-runner-linux-x64-2.308.0.tar.gz
-  # Security issue on bare metal, disabled by default
-  export RUNNER_ALLOW_RUNASROOT=1
+  tar xzf "./$DOWNLOAD_OUTPUT"
   # Create the runner and start the configuration experience
-  printf "Default\nmachine-name\ndockerized\n_work" | \
+  printf "%s\n%s\n%s\n%s\n" "$RUNNER_GROUP" "$RUNNER_NAME" "$ADDITIONAL_LABELS" "$WORK_DIR" | \
     ./config.sh \
-      --url https://github.com/bgruey/siamb-private \
-      --token SECRET-TOKEN-NAME
+      --url "$REPO_URL" \
+      --token "$GITHUB_TOKEN"
 elif [[ "$SOURCE" = "BITBUCKET" ]]
 then
   echo "Setting up Bitbucket Pipelines Runner"
