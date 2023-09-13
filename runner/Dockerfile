@@ -20,4 +20,6 @@ RUN python3 parse-runner-installation.py --infile $RUNNER_FILE
 RUN . ./.env \
     && export $(cut -d= -f1 ./.env) \
     && ./install-runner.sh
-CMD . ./.env && export $(cut -d= -f1 ./.env) &&  ./run.sh
+CMD . ./.env \
+    && export $(cut -d= -f1 ./.env) \
+    &&  ./run.sh
